@@ -61,3 +61,9 @@ def test_hard_problems_come_back_sooner_than_easy_ones():
 def test_ladder_saturates_instead_of_indexing_off_the_end():
     today = dt.date(2026, 9, 3)
     assert lc_cmds._next_review({"difficulty": "Easy", "solves": 99}, today) == "2026-12-02"
+
+
+def test_zero_duration_reads_as_unknown_not_zero():
+    """A 0 means 'no time recorded', so it must not print as '0m'."""
+    assert fmt_duration(0) == "—"
+    assert fmt_duration(None) == "—"

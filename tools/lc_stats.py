@@ -84,7 +84,7 @@ def cmd_status(_args) -> int:
         banked = int(m.get("time_spent_min") or 0)
         if started:
             live = banked + int((now() - started).total_seconds() // 60)
-            mark = f"▶ running {fmt_duration(live)}"
+            mark = f"▶ running {fmt_duration(live)}" if live else "▶ just started"
         else:
             mark = f"⏸ {fmt_duration(banked)} banked" if banked else "· not started"
         print(f"  {str(m.get('id') or '?'):>4}  {str(m.get('title'))[:38]:<40} {mark}")
