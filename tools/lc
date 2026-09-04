@@ -1,0 +1,200 @@
+#!/usr/bin/env bash
+#
+# lc — LeetCode workflow: import a problem, time yourself, publish to git.
+#
+# The note in Obsidian is the source of truth. This script owns process
+# (dispatch, git, launchd, opening Obsidian); the Python modules beside it own
+# content (fetching problems, rendering notes, generating the repo).
+#
+set -euo pipefail
+IFS=$'\n\t'
+
+readonly TOOLS_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+readonly REPO_DIR="$(dirname -- "$TOOLS_DIR")"
+readonly PROG="${0##*/}"
+
+PYTHON="${LC_PYTHON:-python3}"
+
+log()  { printf '%s\n' "$*" >&2; }
+die()  { printf '%s: %s\n' "$PROG" "$*" >&2; exit 1; }
+
+py() {
+  local script="$1"; shift
+  PYTHONPATH="$TOOLS_DIR" "$PYTHON" "$TOOLS_DIR/$script" "$@"
+}
+
+usage() {
+  cat <<'USAGE'
+lc — LeetCode workflow for Obsidian + git
+
+  Starting a problem
+    lc new <url|slug|id>     import a problem, scaffold the code, start the clock
+    lc open [problem]        open a problem's note in Obsidian
+    lc refresh [problem]     re-pull the problem statement, keeping your writing
+
+  Timing
+    lc start  [problem]      start (or restart) the clock
+    lc pause  [problem]      bank the elapsed time and stop the clock
+    lc resume [problem]      start the clock again, keeping banked time
+    lc done   [problem]      stop, mark solved, schedule the next review
+
+  Publishing
+    lc sync [--dry-run]      write solutions and READMEs into this repo
+    lc push [-m <msg>]       sync, then commit and push
+    lc stats                 print the dashboard
+    lc status                what's in flight right now
+
+  Setup
+    lc install               link `lc` onto PATH and load the nightly job
+    lc uninstall             unload the nightly job
+    lc alias <foreign> <lc>  teach lc a non-LeetCode slug (e.g. NeetCode's)
+    lc migrate               convert pre-lc notes to the current format
+    lc test                  run the test suite
+
+  <problem> accepts a URL, a slug, a problem number, or part of the title.
+  With no <problem>, commands act on the problem you're currently working on.
+USAGE
+}
+
+# --------------------------------------------------------------------------- git
+
+require_git_repo() {
+  git -C "$REPO_DIR" rev-parse --git-dir >/dev/null 2>&1 \
+    || die "$REPO_DIR is not a git repository (run: lc install)"
+}
+
+# Build the commit subject from what sync actually published today.
+commit_subject() {
+  py lc_stats.py --commit-subject
+}
+
+cmd_push() {
+  local message=""
+  while (($#)); do
+    case "$1" in
+      -m|--message) message="${2:-}"; shift 2 ;;
+      *) die "push: unexpected argument '$1' (did you mean: lc sync --dry-run?)" ;;
+    esac
+  done
+  require_git_repo
+  cmd_sync
+
+  if [[ -z "$(git -C "$REPO_DIR" status --porcelain)" ]]; then
+    log "nothing to commit — working tree is clean"
+    return 0
+  fi
+
+  [[ -n "$message" ]] || message="$(commit_subject)"
+
+  git -C "$REPO_DIR" add -A
+  git -C "$REPO_DIR" commit -q -m "$message"
+  log "committed: $message"
+
+  local branch
+  branch="$(git -C "$REPO_DIR" rev-parse --abbrev-ref HEAD)"
+  if ! git -C "$REPO_DIR" remote get-url origin >/dev/null 2>&1; then
+    log "no 'origin' remote — commit is local only (run: lc install)"
+    return 0
+  fi
+  if git -C "$REPO_DIR" push -q -u origin "$branch" 2>/dev/null; then
+    log "pushed to origin/$branch"
+  else
+    log "! push failed — the commit is safe locally, retry with: git -C $REPO_DIR push"
+    return 1
+  fi
+}
+
+cmd_sync() { py lc_sync.py "$@"; }
+
+# --------------------------------------------------------------------------- setup
+
+cmd_install() {
+  local bindir="${LC_BIN_DIR:-$HOME/bin}"
+  mkdir -p "$bindir"
+  ln -sf "$TOOLS_DIR/lc" "$bindir/lc"
+  log "linked $bindir/lc"
+  case ":$PATH:" in
+    *":$bindir:"*) ;;
+    *) log "! $bindir is not on your PATH — add to ~/.zshrc:"
+       log "    export PATH=\"\$HOME/bin:\$PATH\"" ;;
+  esac
+
+  if ! git -C "$REPO_DIR" rev-parse --git-dir >/dev/null 2>&1; then
+    git -C "$REPO_DIR" init -q -b main
+    log "initialised git repo in $REPO_DIR"
+  fi
+
+  if ! git -C "$REPO_DIR" remote get-url origin >/dev/null 2>&1; then
+    if command -v gh >/dev/null 2>&1; then
+      log "creating the GitHub repo…"
+      (cd "$REPO_DIR" && gh repo create leetcode --private --source=. --remote=origin) \
+        || log "! gh repo create failed — add the remote by hand"
+    else
+      log "! no 'origin' remote and gh is not installed; add one with:"
+      log "    git -C $REPO_DIR remote add origin <url>"
+    fi
+  fi
+
+  install_launchd
+}
+
+readonly PLIST_LABEL="com.pbairol.leetcode-sync"
+
+install_launchd() {
+  local src="$TOOLS_DIR/launchd/$PLIST_LABEL.plist"
+  local dest="$HOME/Library/LaunchAgents/$PLIST_LABEL.plist"
+  [[ -f "$src" ]] || die "missing $src"
+
+  mkdir -p "$HOME/Library/LaunchAgents" "$REPO_DIR/.logs"
+  sed -e "s|__TOOLS_DIR__|$TOOLS_DIR|g" \
+      -e "s|__REPO_DIR__|$REPO_DIR|g" \
+      -e "s|__HOME__|$HOME|g" \
+      "$src" > "$dest"
+
+  launchctl bootout "gui/$(id -u)/$PLIST_LABEL" 2>/dev/null || true
+  launchctl bootstrap "gui/$(id -u)" "$dest"
+  log "nightly sync loaded ($PLIST_LABEL) — logs in $REPO_DIR/.logs/"
+}
+
+cmd_uninstall() {
+  launchctl bootout "gui/$(id -u)/$PLIST_LABEL" 2>/dev/null \
+    && log "nightly sync unloaded" \
+    || log "nightly sync was not loaded"
+  rm -f "$HOME/Library/LaunchAgents/$PLIST_LABEL.plist"
+}
+
+cmd_test() {
+  # uv is how the rest of this machine runs Python tooling, and it pulls pytest
+  # in without polluting the system interpreter.
+  if command -v uv >/dev/null 2>&1; then
+    (cd "$TOOLS_DIR" && PYTHONPATH="$TOOLS_DIR" uv run --quiet --with pytest \
+        python -m pytest tests -q "$@")
+  elif "$PYTHON" -c 'import pytest' 2>/dev/null; then
+    (cd "$TOOLS_DIR" && PYTHONPATH="$TOOLS_DIR" "$PYTHON" -m pytest tests -q "$@")
+  else
+    die "need either uv or pytest installed to run the tests"
+  fi
+}
+
+# --------------------------------------------------------------------------- dispatch
+
+main() {
+  (($#)) || { usage; exit 0; }
+  local cmd="$1"; shift
+
+  case "$cmd" in
+    new|start|pause|resume|done|refresh|open|path|alias|migrate)
+                      py lc_cmds.py "$cmd" "$@" ;;
+    sync)             cmd_sync "$@" ;;
+    push)             cmd_push "$@" ;;
+    stats|status)     py lc_stats.py "$cmd" "$@" ;;
+    install)          cmd_install "$@" ;;
+    uninstall)        cmd_uninstall "$@" ;;
+    test)             cmd_test "$@" ;;
+    -h|--help|help)   usage ;;
+    -*)               die "unknown option '$cmd' (try: lc --help)" ;;
+    *)                die "unknown command '$cmd' (try: lc --help)" ;;
+  esac
+}
+
+main "$@"
