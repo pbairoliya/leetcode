@@ -9,7 +9,19 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-readonly TOOLS_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+# `lc install` symlinks this script into ~/bin, so resolve the link chain
+# rather than the link's directory -- otherwise TOOLS_DIR points at ~/bin and
+# none of the Python modules are found. (No readlink -f on macOS.)
+resolve_self() {
+  local src="${BASH_SOURCE[0]}" dir
+  while [ -L "$src" ]; do
+    dir="$(cd -P -- "$(dirname -- "$src")" && pwd)"
+    src="$(readlink "$src")"
+    case "$src" in /*) ;; *) src="$dir/$src" ;; esac
+  done
+  (cd -P -- "$(dirname -- "$src")" && pwd)
+}
+readonly TOOLS_DIR="$(resolve_self)"
 readonly REPO_DIR="$(dirname -- "$TOOLS_DIR")"
 readonly PROG="${0##*/}"
 

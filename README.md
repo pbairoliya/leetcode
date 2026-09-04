@@ -21,23 +21,24 @@ See [`tools/README.md`](./tools/README.md) for the full command reference.
 
 | Metric | Value |
 |---|---|
-| **Solved** | 3 |
-| 🟢 Easy | 3 |
+| **Solved** | 4 |
+| 🟢 Easy | 4 |
 | 🟡 Medium | 0 |
 | 🔴 Hard | 0 |
-| **Median solve time** | 37m |
-| **Total time** | 37m |
+| **Median solve time** | 27m |
+| **Total time** | 55m |
 | **Current streak** | 2 day(s) |
 | **Last solved** | 2026-09-03 |
 
 ## Topics
 
-`Linked List ×2` `Recursion ×2` `Array ×1` `Hash Table ×1`
+`Array ×2` `Linked List ×2` `Recursion ×2` `Dynamic Programming ×1` `Hash Table ×1`
 
 ## Problems
 
 | # | Problem | Difficulty | Time | Attempts | Solved |
 |---|---|---|---|---|---|
+| 121 | [Best Time to Buy and Sell Stock](./Easy/0121-best-time-to-buy-and-sell-stock) | 🟢 Easy | 18m | 1 | 2026-09-03 |
 | 1 | [Two Sum](./Easy/0001-two-sum) | 🟢 Easy | 37m | 1 | 2026-09-03 |
 | 21 | [Merge Two Sorted Lists](./Easy/0021-merge-two-sorted-lists) | 🟢 Easy | — | 1 | 2026-09-02 |
 | 206 | [Reverse Linked List](./Easy/0206-reverse-linked-list) | 🟢 Easy | — | 1 | 2026-09-02 |
