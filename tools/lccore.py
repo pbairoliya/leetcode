@@ -11,7 +11,13 @@ import re
 import subprocess
 import sys
 import tempfile
-import tomllib
+try:
+    import tomllib  # Python 3.11+
+except ModuleNotFoundError:  # pragma: no cover - guarded by `lc`'s interpreter pick
+    raise SystemExit(
+        f"lc needs Python 3.11+ for tomllib, but this is {sys.version.split()[0]}.\n"
+        "Run commands through `lc`, which picks a suitable interpreter, or set LC_PYTHON."
+    )
 import unicodedata
 from pathlib import Path
 from typing import Any
