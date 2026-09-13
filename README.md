@@ -47,6 +47,6 @@ See [`tools/README.md`](./tools/README.md) for the full command reference.
 | 206 | [Reverse Linked List](./Easy/0206-reverse-linked-list) | 🟢 Easy | — | 1 | 2026-09-02 |
 | 21 | [Merge Two Sorted Lists](./Easy/0021-merge-two-sorted-lists) | 🟢 Easy | — | 1 | 2026-09-02 |
 
-_Updated 2026-09-12 by `lc sync`._
+_Updated 2026-09-13 by `lc sync`._
 
 <!-- lc:end -->
