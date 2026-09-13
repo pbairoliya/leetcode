@@ -71,12 +71,13 @@ def cmd_stats(_args) -> int:
 
 def cmd_status(_args) -> int:
     """What's on the bench: unsolved problems, and any running clock."""
+    settled = config().publish_statuses | {"abandoned"}
     open_rows = [
         (p, m) for p, m, _ in _rows()
-        if str(m.get("status", "")).lower() not in config().publish_statuses
+        if str(m.get("status", "")).lower() not in settled
     ]
     if not open_rows:
-        print("Nothing in flight. All problems are solved.")
+        print("Nothing in flight — every problem is solved or dropped.")
         return 0
     print()
     for _, m in open_rows[:12]:

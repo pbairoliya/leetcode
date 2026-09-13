@@ -8,9 +8,14 @@ from typing import List, Optional  # noqa: F401
 
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        seen = {}
-        for i, n in enumerate(nums):
-            if target - n in seen:
-                return [seen[target - n], i]
-            seen[n] = i
+        sol = []
+        numMap = {}
+        for i, number in enumerate(nums):
+            numMap[number] = i
+
+        for i, number in enumerate(nums):
+            targetNum = target - number
+            if targetNum in numMap and numMap[targetNum] != i:
+                return [i, numMap[targetNum]]
+
         return []

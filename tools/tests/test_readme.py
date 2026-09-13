@@ -67,3 +67,11 @@ def test_problem_readme_omits_untouched_sections():
     assert "## Explanation" not in md, "empty bullet is not real content"
     assert "## Mistakes" not in md
     assert "solution.py" in md
+
+
+def test_the_file_header_drops_the_duration_when_there_is_none():
+    import lc_sync
+    meta = {"id": "9001", "title": "X", "difficulty": "Easy", "link": "u", "date": "2026-09-12"}
+    assert "Solved 2026-09-12.\n" in lc_sync._file_header(meta)
+    assert "in —" not in lc_sync._file_header(meta)
+    assert "Solved 2026-09-12 in 8m." in lc_sync._file_header(meta | {"time_spent_min": 8})

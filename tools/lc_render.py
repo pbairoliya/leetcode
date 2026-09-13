@@ -36,6 +36,11 @@ PLACEHOLDER_APPROACH = "> Before you write any code: what's the brute force, and
 PLACEHOLDER_EXPLANATION = "> Explain the working solution in your own words, as if teaching it. This is what lands in the repo README."
 
 
+def source_name(link: str) -> str:
+    """Whose site is this? NeetCode hosts problems LeetCode has no twin for."""
+    return "NeetCode" if "neetcode.io" in str(link).lower() else "LeetCode"
+
+
 def difficulty_badge(difficulty: str) -> str:
     return {"Easy": "🟢 Easy", "Medium": "🟡 Medium", "Hard": "🔴 Hard"}.get(
         difficulty, f"⚪️ {difficulty}"
@@ -72,7 +77,7 @@ def render_body(problem: dict[str, Any]) -> str:
     parts.append(GEN_BEGIN)
     parts.append(f"# {problem['id']}. {problem['title']}")
     meta_line = [
-        f"[🔗 Open on LeetCode]({problem['link']})",
+        f"[🔗 Open on {source_name(problem['link'])}]({problem['link']})",
         difficulty_badge(problem["difficulty"]),
     ]
     if problem.get("acceptance"):

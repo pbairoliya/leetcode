@@ -68,6 +68,7 @@ lc — LeetCode workflow for Obsidian + git
 
   Starting a problem
     lc new <url|slug|id>     import a problem, scaffold the code, start the clock
+    lc new <url> --local     a NeetCode-only problem: no lookup, you paste the text
     lc open [problem]        open a problem's note in Obsidian
     lc refresh [problem]     re-pull the problem statement, keeping your writing
 
@@ -76,11 +77,13 @@ lc — LeetCode workflow for Obsidian + git
     lc pause  [problem]      bank the elapsed time and stop the clock
     lc resume [problem]      start the clock again, keeping banked time
     lc done   [problem]      stop, mark solved, schedule the next review
+    lc drop   [problem]      give up on it: stop the clock, keep the note
 
   Publishing
     lc sync [--dry-run]      write solutions and READMEs into this repo
     lc push [-m <msg>]       sync, then commit and push
     lc stats                 print the dashboard
+    lc review [--open]       build tonight's reading doc in Obsidian
     lc status                what's in flight right now
 
   Setup
@@ -117,6 +120,9 @@ cmd_push() {
   done
   require_git_repo
   cmd_sync
+  # Rebuild tonight's reading doc off the notes we just published. It lives in the
+  # vault, not the repo, so a failure here must never block the push.
+  py lc_review.py review >/dev/null || log "! could not rebuild the reading doc"
 
   if [[ -z "$(git -C "$REPO_DIR" status --porcelain)" ]]; then
     log "nothing to commit — working tree is clean"
@@ -222,11 +228,12 @@ main() {
   local cmd="$1"; shift
 
   case "$cmd" in
-    new|start|pause|resume|done|refresh|open|path|alias|migrate)
+    new|start|pause|resume|drop|done|refresh|open|path|alias|migrate)
                       py lc_cmds.py "$cmd" "$@" ;;
     sync)             cmd_sync "$@" ;;
     push)             cmd_push "$@" ;;
     stats|status)     py lc_stats.py "$cmd" "$@" ;;
+    review)           py lc_review.py "$cmd" "$@" ;;
     install)          cmd_install "$@" ;;
     uninstall)        cmd_uninstall "$@" ;;
     test)             cmd_test "$@" ;;

@@ -59,10 +59,14 @@ def _strip_header(code: str) -> str:
 
 
 def _file_header(meta: dict[str, Any]) -> str:
+    spent = int(meta.get("time_spent_min") or 0)
+    solved = f'Solved {meta.get("date")}'
+    if spent:
+        solved += f" in {fmt_duration(spent)}"
     return (
         f'"""{meta.get("id")}. {meta.get("title")} ({meta.get("difficulty")})\n\n'
         f'{meta.get("link")}\n'
-        f'Solved {meta.get("date")} in {fmt_duration(meta.get("time_spent_min"))}.\n"""\n'
+        f'{solved}.\n"""\n'
         "from typing import List, Optional  # noqa: F401\n\n\n"
     )
 

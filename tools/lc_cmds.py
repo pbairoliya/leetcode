@@ -51,16 +51,40 @@ def _save(path: Path, meta: dict[str, Any], body: str) -> bool:
 # --------------------------------------------------------------------------- new
 
 
+LOCAL_ID_BASE = 9000
+
+
+def _next_local_id() -> str:
+    """Local problems get 9001, 9002, ... — out of LeetCode's numbering forever."""
+    taken = [
+        int(m["id"]) for _, m, _ in iter_notes()
+        if str(m.get("id") or "").isdigit() and int(m["id"]) > LOCAL_ID_BASE
+    ]
+    return str(max(taken, default=LOCAL_ID_BASE) + 1)
+
+
 def cmd_new(args) -> int:
+    if getattr(args, "local", False):
+        problem = lc_fetch.local_problem(
+            args.target, _next_local_id(), args.title, args.difficulty
+        )
+    else:
+        problem = _fetch_or_stub(args)
+
+    return _write_new(args, problem, local=getattr(args, "local", False))
+
+
+def _fetch_or_stub(args) -> dict[str, Any]:
     try:
-        problem = lc_fetch.get_problem(args.target, refresh=args.refresh)
+        return lc_fetch.get_problem(args.target, refresh=args.refresh)
     except LcError as exc:
         if args.offline or "network" in str(exc):
             log(f"! {exc}\n! falling back to an offline stub note")
-            problem = lc_fetch.stub_problem(args.target)
-        else:
-            raise
+            return lc_fetch.stub_problem(args.target)
+        raise
 
+
+def _write_new(args, problem: dict[str, Any], local: bool = False) -> int:
     path = _note_path_for(problem["title"], problem["id"])
 
     if path.exists():
@@ -82,6 +106,8 @@ def cmd_new(args) -> int:
     meta, body = lc_render.render_note(problem)
     meta["started_at"] = now().isoformat()
     meta["status"] = "attempted"
+    if local:
+        meta["source"] = "local"
 
     if args.print:
         # Templater path: emit the note and let Obsidian create the file.
@@ -156,6 +182,22 @@ def cmd_pause(args) -> int:
 
 def cmd_resume(args) -> int:
     return cmd_start(args)
+
+
+def cmd_drop(args) -> int:
+    """Give up on a problem: stop the clock, keep the note, stop nagging about it."""
+    path, meta, body = find_note(args.target)
+    if parse_ts(meta.get("started_at")):
+        meta["time_spent_min"] = _elapsed_min(meta, now())
+    meta["started_at"] = None
+    meta["ended_at"] = None
+    meta["status"] = "abandoned"
+    body = _refresh_stats(meta, body)
+    _save(path, meta, body)
+    spent = int(meta.get("time_spent_min") or 0)
+    note = f" after {fmt_duration(spent)}" if spent else ""
+    print(f"✗ dropped {meta.get('title')}{note} — `lc start` picks it back up")
+    return 0
 
 
 def _next_review(meta: dict[str, Any], today: dt.date) -> str:
@@ -233,7 +275,7 @@ def cmd_refresh(args) -> int:
     targets = [find_note(args.target)] if args.target else iter_notes()
     changed = 0
     for path, meta, body in targets:
-        if not meta.get("slug"):
+        if not meta.get("slug") or meta.get("source") == "local":
             continue
         try:
             problem = lc_fetch.get_problem(str(meta["slug"]), refresh=True)
@@ -378,9 +420,14 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--no-open", action="store_true")
     p.add_argument("--refresh", action="store_true", help="bypass the problem cache")
     p.add_argument("--offline", action="store_true")
+    p.add_argument("--local", action="store_true",
+                   help="a problem LeetCode doesn't have (NeetCode-only); skips the lookup")
+    p.add_argument("--title", help="title for a --local problem")
+    p.add_argument("--difficulty", help="Easy/Medium/Hard for a --local problem")
     p.set_defaults(func=cmd_new)
 
-    for name, fn in (("start", cmd_start), ("pause", cmd_pause), ("resume", cmd_resume)):
+    for name, fn in (("start", cmd_start), ("pause", cmd_pause),
+                     ("resume", cmd_resume), ("drop", cmd_drop)):
         p = sub.add_parser(name)
         p.add_argument("target", nargs="?")
         p.set_defaults(func=fn)

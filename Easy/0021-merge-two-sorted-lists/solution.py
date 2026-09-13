@@ -1,7 +1,7 @@
 """21. Merge Two Sorted Lists (Easy)
 
 https://leetcode.com/problems/merge-two-sorted-lists/
-Solved 2026-09-02 in —.
+Solved 2026-09-02.
 """
 from typing import List, Optional  # noqa: F401
 

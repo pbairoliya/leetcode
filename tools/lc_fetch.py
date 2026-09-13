@@ -426,6 +426,45 @@ def get_problem(target: str, refresh: bool = False) -> dict[str, Any]:
     }
 
 
+def local_problem(
+    target: str,
+    pid: str,
+    title: str | None = None,
+    difficulty: str | None = None,
+) -> dict[str, Any]:
+    """A problem with no LeetCode entry — NeetCode-only ones, mostly.
+
+    Nothing is fetched: you paste the statement into the note yourself. The id
+    comes from a reserved 9000+ band so these sort together and can never
+    collide with a real LeetCode number.
+    """
+    from lccore import parse_target
+
+    try:
+        slug, _ = parse_target(target)
+    except LcError:
+        slug = slugify(target)
+    link = target if target.startswith("http") else f"https://neetcode.io/problems/{slug or ''}/"
+    # NeetCode's own slugs are often generic ("queue"); a given title is a better name.
+    slug = slugify(title) if title else (slug or "problem")
+    return {
+        "id": pid,
+        "title": title or slug.replace("-", " ").title(),
+        "slug": slug,
+        "difficulty": (difficulty or "Unknown").capitalize(),
+        "link": link,
+        "topics": [],
+        "paid_only": False,
+        "hints": [],
+        "acceptance": "",
+        "starter": "class Solution:\n    def solve(self):\n        pass",
+        "follow_up": "",
+        "description": "_Paste the problem statement here._",
+        "examples": "",
+        "constraints": "",
+    }
+
+
 def stub_problem(target: str) -> dict[str, Any]:
     """Offline fallback so `lc new` never leaves you without a note."""
     from lccore import parse_target
