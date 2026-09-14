@@ -135,3 +135,14 @@ def test_dropping_an_unstarted_problem_keeps_its_banked_time(dropped):
     meta = dropped({"title": "X", "started_at": None, "time_spent_min": 12})
     assert meta["status"] == "abandoned"
     assert meta["time_spent_min"] == 12
+
+
+def test_the_due_hook_rejoins_a_hard_wrapped_bullet():
+    text = "- Hash map = exact-match lookup. Whenever the inner loop\n  is just a scan.\n- second bullet\n"
+    assert lc_review._first_bullet(text) == (
+        "Hash map = exact-match lookup. Whenever the inner loop is just a scan.")
+
+
+def test_the_due_hook_is_empty_when_there_are_no_bullets():
+    assert lc_review._first_bullet("") == ""
+    assert lc_review._first_bullet("just prose\n") == ""

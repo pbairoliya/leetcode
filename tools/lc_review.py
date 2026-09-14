@@ -24,7 +24,7 @@ from lccore import (
 )
 
 READING_DIRNAME = "Reading"
-PATTERNS_NOTE = "Leetcode Patterns"
+PATTERNS_NOTE = "Leetcode Study Guide"
 NOTE_TYPE = "leetcode-reading"
 
 BADGE = {"easy": "🟢", "medium": "🟡", "hard": "🔴"}
@@ -83,12 +83,27 @@ def _problem_block(path, meta, body) -> str:
     return "\n\n".join(parts)
 
 
+def _first_bullet(text: str) -> str:
+    """The first bullet, rejoined — notes are hard-wrapped, so one line is half a thought."""
+    out: list[str] = []
+    for line in text.splitlines():
+        if line.startswith("- "):
+            if out:
+                break
+            out.append(line[2:].strip())
+        elif out and line.strip():
+            out.append(line.strip())
+        elif out:
+            break
+    return " ".join(out)
+
+
 def _due_block(path, meta, body) -> str:
     mistakes = lc_render.section(body, lc_render.H_MISTAKES)
     line = f"- {_badge(meta)} {_note_link(path)} — last solved {meta.get('date', '?')}"
-    if mistakes and mistakes.strip() not in ("-", ""):
-        first = next((l for l in mistakes.splitlines() if l.strip()), "")
-        line += f"\n  {first.strip()}"
+    hook = _first_bullet(mistakes) if mistakes else ""
+    if hook:
+        line += f"\n  — {hook}"
     return line
 
 
@@ -150,7 +165,7 @@ def build(today: dt.date) -> tuple[dict, str]:
     else:
         out.append("Nothing due. 🎉")
 
-    out.append("## Pattern recognition")
+    out.append("## Study guide")
     out.append(f"![[{PATTERNS_NOTE}]]")
 
     return meta, "\n\n".join(out) + "\n"

@@ -21,23 +21,27 @@ See [`tools/README.md`](./tools/README.md) for the full command reference.
 
 | Metric | Value |
 |---|---|
-| **Solved** | 8 |
-| 🟢 Easy | 5 |
-| 🟡 Medium | 3 |
+| **Solved** | 12 |
+| 🟢 Easy | 6 |
+| 🟡 Medium | 6 |
 | 🔴 Hard | 0 |
 | **Median solve time** | 18m |
 | **Total time** | 1h 31m |
-| **Current streak** | 1 day(s) |
-| **Last solved** | 2026-09-12 |
+| **Current streak** | 2 day(s) |
+| **Last solved** | 2026-09-13 |
 
 ## Topics
 
-`Linked List ×4` `Recursion ×3` `Array ×3` `Two Pointers ×2` `Hash Table ×2` `Stack ×1` `Divide and Conquer ×1` `Sorting ×1` `Heap (Priority Queue) ×1` `Bucket Sort ×1` `Counting ×1` `Quickselect ×1` `Dynamic Programming ×1`
+`Array ×6` `Two Pointers ×5` `Linked List ×4` `Hash Table ×3` `Recursion ×3` `Sorting ×2` `Binary Search ×1` `String ×1` `Union-Find ×1` `Stack ×1` `Divide and Conquer ×1` `Heap (Priority Queue) ×1` `Bucket Sort ×1` `Counting ×1` `Quickselect ×1` `Dynamic Programming ×1`
 
 ## Problems
 
 | # | Problem | Difficulty | Time | Attempts | Solved |
 |---|---|---|---|---|---|
+| 15 | [3Sum](./Medium/0015-3sum) | 🟡 Medium | — | 1 | 2026-09-13 |
+| 167 | [Two Sum II - Input Array Is Sorted](./Medium/0167-two-sum-ii-input-array-is-sorted) | 🟡 Medium | — | 1 | 2026-09-13 |
+| 125 | [Valid Palindrome](./Easy/0125-valid-palindrome) | 🟢 Easy | — | 1 | 2026-09-13 |
+| 128 | [Longest Consecutive Sequence](./Medium/0128-longest-consecutive-sequence) | 🟡 Medium | — | 1 | 2026-09-13 |
 | 19 | [Remove Nth Node From End of List](./Medium/0019-remove-nth-node-from-end-of-list) | 🟡 Medium | — | 1 | 2026-09-12 |
 | 143 | [Reorder List](./Medium/0143-reorder-list) | 🟡 Medium | 20m | 1 | 2026-09-12 |
 | 9001 | [Design Double-ended Queue](./Easy/9001-design-double-ended-queue) | 🟢 Easy | 8m | 1 | 2026-09-12 |
