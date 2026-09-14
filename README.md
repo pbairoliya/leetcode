@@ -21,9 +21,9 @@ See [`tools/README.md`](./tools/README.md) for the full command reference.
 
 | Metric | Value |
 |---|---|
-| **Solved** | 12 |
+| **Solved** | 13 |
 | 🟢 Easy | 6 |
-| 🟡 Medium | 6 |
+| 🟡 Medium | 7 |
 | 🔴 Hard | 0 |
 | **Median solve time** | 18m |
 | **Total time** | 1h 31m |
@@ -32,12 +32,13 @@ See [`tools/README.md`](./tools/README.md) for the full command reference.
 
 ## Topics
 
-`Array ×6` `Two Pointers ×5` `Linked List ×4` `Hash Table ×3` `Recursion ×3` `Sorting ×2` `Binary Search ×1` `String ×1` `Union-Find ×1` `Stack ×1` `Divide and Conquer ×1` `Heap (Priority Queue) ×1` `Bucket Sort ×1` `Counting ×1` `Quickselect ×1` `Dynamic Programming ×1`
+`Array ×7` `Two Pointers ×6` `Linked List ×4` `Hash Table ×3` `Recursion ×3` `Sorting ×2` `Greedy ×1` `Binary Search ×1` `String ×1` `Union-Find ×1` `Stack ×1` `Divide and Conquer ×1` `Heap (Priority Queue) ×1` `Bucket Sort ×1` `Counting ×1` `Quickselect ×1` `Dynamic Programming ×1`
 
 ## Problems
 
 | # | Problem | Difficulty | Time | Attempts | Solved |
 |---|---|---|---|---|---|
+| 11 | [Container With Most Water](./Medium/0011-container-with-most-water) | 🟡 Medium | — | 1 | 2026-09-13 |
 | 15 | [3Sum](./Medium/0015-3sum) | 🟡 Medium | — | 1 | 2026-09-13 |
 | 167 | [Two Sum II - Input Array Is Sorted](./Medium/0167-two-sum-ii-input-array-is-sorted) | 🟡 Medium | — | 1 | 2026-09-13 |
 | 125 | [Valid Palindrome](./Easy/0125-valid-palindrome) | 🟢 Easy | — | 1 | 2026-09-13 |
@@ -51,6 +52,6 @@ See [`tools/README.md`](./tools/README.md) for the full command reference.
 | 206 | [Reverse Linked List](./Easy/0206-reverse-linked-list) | 🟢 Easy | — | 1 | 2026-09-02 |
 | 21 | [Merge Two Sorted Lists](./Easy/0021-merge-two-sorted-lists) | 🟢 Easy | — | 1 | 2026-09-02 |
 
-_Updated 2026-09-13 by `lc sync`._
+_Updated 2026-09-14 by `lc sync`._
 
 <!-- lc:end -->
