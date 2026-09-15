@@ -32,17 +32,17 @@ See [`tools/README.md`](./tools/README.md) for the full command reference.
 
 ## Topics
 
-`Array ×7` `Two Pointers ×6` `Linked List ×4` `Hash Table ×3` `Recursion ×3` `Sorting ×2` `Greedy ×1` `Binary Search ×1` `String ×1` `Union-Find ×1` `Stack ×1` `Divide and Conquer ×1` `Heap (Priority Queue) ×1` `Bucket Sort ×1` `Counting ×1` `Quickselect ×1` `Dynamic Programming ×1`
+`Array ×7` `Two Pointers ×6` `Linked List ×4` `Hash Table ×3` `Recursion ×3` `Sorting ×2` `Union-Find ×1` `Greedy ×1` `Binary Search ×1` `String ×1` `Stack ×1` `Divide and Conquer ×1` `Heap (Priority Queue) ×1` `Bucket Sort ×1` `Counting ×1` `Quickselect ×1` `Dynamic Programming ×1`
 
 ## Problems
 
 | # | Problem | Difficulty | Time | Attempts | Solved |
 |---|---|---|---|---|---|
+| 128 | [Longest Consecutive Sequence](./Medium/0128-longest-consecutive-sequence) | 🟡 Medium | — | 1 | 2026-09-13 |
 | 11 | [Container With Most Water](./Medium/0011-container-with-most-water) | 🟡 Medium | — | 1 | 2026-09-13 |
 | 15 | [3Sum](./Medium/0015-3sum) | 🟡 Medium | — | 1 | 2026-09-13 |
 | 167 | [Two Sum II - Input Array Is Sorted](./Medium/0167-two-sum-ii-input-array-is-sorted) | 🟡 Medium | — | 1 | 2026-09-13 |
 | 125 | [Valid Palindrome](./Easy/0125-valid-palindrome) | 🟢 Easy | — | 1 | 2026-09-13 |
-| 128 | [Longest Consecutive Sequence](./Medium/0128-longest-consecutive-sequence) | 🟡 Medium | — | 1 | 2026-09-13 |
 | 19 | [Remove Nth Node From End of List](./Medium/0019-remove-nth-node-from-end-of-list) | 🟡 Medium | — | 1 | 2026-09-12 |
 | 143 | [Reorder List](./Medium/0143-reorder-list) | 🟡 Medium | 20m | 1 | 2026-09-12 |
 | 9001 | [Design Double-ended Queue](./Easy/9001-design-double-ended-queue) | 🟢 Easy | 8m | 1 | 2026-09-12 |
