@@ -27,7 +27,7 @@ See [`tools/README.md`](./tools/README.md) for the full command reference.
 | 🔴 Hard | 0 |
 | **Median solve time** | 18m |
 | **Total time** | 1h 31m |
-| **Current streak** | 2 day(s) |
+| **Current streak** | 0 day(s) |
 | **Last solved** | 2026-09-13 |
 
 ## Topics
@@ -52,6 +52,6 @@ See [`tools/README.md`](./tools/README.md) for the full command reference.
 | 206 | [Reverse Linked List](./Easy/0206-reverse-linked-list) | 🟢 Easy | — | 1 | 2026-09-02 |
 | 21 | [Merge Two Sorted Lists](./Easy/0021-merge-two-sorted-lists) | 🟢 Easy | — | 1 | 2026-09-02 |
 
-_Updated 2026-09-14 by `lc sync`._
+_Updated 2026-09-15 by `lc sync`._
 
 <!-- lc:end -->
