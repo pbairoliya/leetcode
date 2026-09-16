@@ -21,23 +21,25 @@ See [`tools/README.md`](./tools/README.md) for the full command reference.
 
 | Metric | Value |
 |---|---|
-| **Solved** | 13 |
+| **Solved** | 15 |
 | 🟢 Easy | 6 |
-| 🟡 Medium | 7 |
-| 🔴 Hard | 0 |
+| 🟡 Medium | 8 |
+| 🔴 Hard | 1 |
 | **Median solve time** | 18m |
 | **Total time** | 1h 31m |
-| **Current streak** | 0 day(s) |
-| **Last solved** | 2026-09-13 |
+| **Current streak** | 1 day(s) |
+| **Last solved** | 2026-09-15 |
 
 ## Topics
 
-`Array ×7` `Two Pointers ×6` `Linked List ×4` `Hash Table ×3` `Recursion ×3` `Sorting ×2` `Union-Find ×1` `Greedy ×1` `Binary Search ×1` `String ×1` `Stack ×1` `Divide and Conquer ×1` `Heap (Priority Queue) ×1` `Bucket Sort ×1` `Counting ×1` `Quickselect ×1` `Dynamic Programming ×1`
+`Array ×8` `Two Pointers ×7` `Hash Table ×4` `Linked List ×4` `Recursion ×3` `String ×2` `Dynamic Programming ×2` `Stack ×2` `Sorting ×2` `Sliding Window ×1` `Monotonic Stack ×1` `Union-Find ×1` `Greedy ×1` `Binary Search ×1` `Divide and Conquer ×1` `Heap (Priority Queue) ×1` `Bucket Sort ×1` `Counting ×1` `Quickselect ×1`
 
 ## Problems
 
 | # | Problem | Difficulty | Time | Attempts | Solved |
 |---|---|---|---|---|---|
+| 3 | [Longest Substring Without Repeating Characters](./Medium/0003-longest-substring-without-repeating-characters) | 🟡 Medium | — | 1 | 2026-09-15 |
+| 42 | [Trapping Rain Water](./Hard/0042-trapping-rain-water) | 🔴 Hard | — | 1 | 2026-09-15 |
 | 128 | [Longest Consecutive Sequence](./Medium/0128-longest-consecutive-sequence) | 🟡 Medium | — | 1 | 2026-09-13 |
 | 11 | [Container With Most Water](./Medium/0011-container-with-most-water) | 🟡 Medium | — | 1 | 2026-09-13 |
 | 15 | [3Sum](./Medium/0015-3sum) | 🟡 Medium | — | 1 | 2026-09-13 |
