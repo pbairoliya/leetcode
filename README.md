@@ -21,23 +21,28 @@ See [`tools/README.md`](./tools/README.md) for the full command reference.
 
 | Metric | Value |
 |---|---|
-| **Solved** | 15 |
-| 🟢 Easy | 6 |
-| 🟡 Medium | 8 |
-| 🔴 Hard | 1 |
+| **Solved** | 20 |
+| 🟢 Easy | 7 |
+| 🟡 Medium | 11 |
+| 🔴 Hard | 2 |
 | **Median solve time** | 18m |
 | **Total time** | 1h 31m |
-| **Current streak** | 1 day(s) |
-| **Last solved** | 2026-09-15 |
+| **Current streak** | 2 day(s) |
+| **Last solved** | 2026-09-16 |
 
 ## Topics
 
-`Array ×8` `Two Pointers ×7` `Hash Table ×4` `Linked List ×4` `Recursion ×3` `String ×2` `Dynamic Programming ×2` `Stack ×2` `Sorting ×2` `Sliding Window ×1` `Monotonic Stack ×1` `Union-Find ×1` `Greedy ×1` `Binary Search ×1` `Divide and Conquer ×1` `Heap (Priority Queue) ×1` `Bucket Sort ×1` `Counting ×1` `Quickselect ×1`
+`Array ×11` `Two Pointers ×8` `Stack ×5` `Hash Table ×5` `String ×4` `Linked List ×4` `Sliding Window ×3` `Recursion ×3` `Monotonic Stack ×2` `Heap (Priority Queue) ×2` `Dynamic Programming ×2` `Sorting ×2` `Math ×1` `Bracket Sequences ×1` `Queue ×1` `Monotonic Queue ×1` `Range Minimum/Maximum Query ×1` `Union-Find ×1` `Greedy ×1` `Binary Search ×1` `Divide and Conquer ×1` `Bucket Sort ×1` `Counting ×1` `Quickselect ×1`
 
 ## Problems
 
 | # | Problem | Difficulty | Time | Attempts | Solved |
 |---|---|---|---|---|---|
+| 739 | [Daily Temperatures](./Medium/0739-daily-temperatures) | 🟡 Medium | — | 1 | 2026-09-16 |
+| 150 | [Evaluate Reverse Polish Notation](./Medium/0150-evaluate-reverse-polish-notation) | 🟡 Medium | — | 1 | 2026-09-15 |
+| 20 | [Valid Parentheses](./Easy/0020-valid-parentheses) | 🟢 Easy | — | 1 | 2026-09-15 |
+| 239 | [Sliding Window Maximum](./Hard/0239-sliding-window-maximum) | 🔴 Hard | — | 1 | 2026-09-15 |
+| 567 | [Permutation in String](./Medium/0567-permutation-in-string) | 🟡 Medium | — | 1 | 2026-09-15 |
 | 3 | [Longest Substring Without Repeating Characters](./Medium/0003-longest-substring-without-repeating-characters) | 🟡 Medium | — | 1 | 2026-09-15 |
 | 42 | [Trapping Rain Water](./Hard/0042-trapping-rain-water) | 🔴 Hard | — | 1 | 2026-09-15 |
 | 128 | [Longest Consecutive Sequence](./Medium/0128-longest-consecutive-sequence) | 🟡 Medium | — | 1 | 2026-09-13 |
@@ -54,6 +59,6 @@ See [`tools/README.md`](./tools/README.md) for the full command reference.
 | 206 | [Reverse Linked List](./Easy/0206-reverse-linked-list) | 🟢 Easy | — | 1 | 2026-09-02 |
 | 21 | [Merge Two Sorted Lists](./Easy/0021-merge-two-sorted-lists) | 🟢 Easy | — | 1 | 2026-09-02 |
 
-_Updated 2026-09-15 by `lc sync`._
+_Updated 2026-09-16 by `lc sync`._
 
 <!-- lc:end -->
