@@ -6,18 +6,20 @@ Solved 2026-09-13.
 from typing import List, Optional  # noqa: F401
 
 
-class Solution:
-    def longestConsecutive(self, nums: List[int]) -> int:
-        numSet = set()
+class Solution(object):
+    def longestConsecutive(self, nums):
+        freqMap = {}
+
         for num in nums:
-            numSet.add(num)
-        longest = 0
-        for num in numSet:
-            if (num - 1) not in numSet:
-                length = 1
-                while (num + length) in numSet:
-                    length += 1
+            freqMap[num] = freqMap.get(num,0) + 1
 
-                longest = max(length, longest)
+        maxSol = 0
+        for num in nums:
+            candidate = num+1
+            sol = 1
+            while candidate in freqMap:
+                candidate += 1
+                sol += 1
+            maxSol = max(sol, maxSol)
 
-        return longest
+        return maxSol

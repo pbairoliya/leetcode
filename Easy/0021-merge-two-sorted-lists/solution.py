@@ -6,24 +6,26 @@ Solved 2026-09-02.
 from typing import List, Optional  # noqa: F401
 
 
-class Solution:
-    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        newCurr = ListNode(-1)
+class Solution(object):
+    def mergeTwoLists(self, list1, list2):
+        newCurr = ListNode(-1, None)
         newHead = newCurr
-        curr1 = list1
-        curr2 = list2
-        while curr1 and curr2:
-            if curr1.val < curr2.val:
-                newCurr.next = curr1
-                curr1 = curr1.next
+
+        if not list1 and not list2:
+            return list1
+
+        while list1 and list2:
+            if list1.val <= list2.val:
+                newCurr.next = list1
+                list1 = list1.next
             else:
-                newCurr.next = curr2
-                curr2 = curr2.next
+                newCurr.next = list2
+                list2 = list2.next
             newCurr = newCurr.next
 
-        if curr1:
-            newCurr.next = curr1
-        else:
-            newCurr.next = curr2
+        if list1:
+            newCurr.next = list1
+        elif list2:
+            newCurr.next = list2
 
         return newHead.next

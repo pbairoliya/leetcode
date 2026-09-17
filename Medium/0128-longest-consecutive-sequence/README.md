@@ -7,39 +7,58 @@
 | **Difficulty** | 🟡 Medium |
 | **Topics** | `Array`, `Hash Table`, `Union-Find` |
 | **Time to solve** | — |
-| **Attempts** | 1 |
+| **Attempts** | 2 |
 | **Solved** | 2026-09-13 |
-| **Unaided** | no |
+| **Unaided** | yes |
 
 ## My approach
 
-**Looked at the answer — but I had two of the three pieces.** Worth recording exactly which
-piece was missing, because it's a small one.
+> [!success] Redone from a blank file 2026-09-16 — **unaided, and I found the optimal myself.**
+> First attempt was the `O(n·k)` version below; I spotted the waste and fixed it. Recording
+> both, because the *difference between them* is the entire problem.
 
-What I got on my own:
-1. **Put everything in a set.** "Is `num + 1` present?" is an exact-match question, so it's
-   a hash lookup. Sorting would answer it too, but that's `O(n log n)` and the constraints
-   want better.
-2. **Check `num - 1`.** I found the right test by myself.
+**The reframe:** "is `x` present?" is an exact-match question ⇒ a hash set. Sorting also
+answers it but costs `O(n log n)`, and the constraints want better.
 
-What I got wrong: I was going to use `num - 1 in numSet` as a **counter condition** — walk
-the numbers and increment a counter every time a predecessor exists. That doesn't work, and
-the reason is worth writing down (see the Explanation). The fix isn't a new test, it's a new
-*meaning* for the test I already had:
+**The insight I had to find the first time and produced on my own this time:**
 
-> `num - 1 not in numSet` doesn't mean "add one". It means **"I am the first number of a
-> run."** Only the first number does any work.
-
-Once a number knows it's a head, it just walks forward — `num+1`, `num+2`, … — until the
-set runs out. That walk measures its own run, and every run gets measured exactly once by
-its own head.
+> `num - 1 not in numSet` isn't a counter condition. It means **"I am the first number of a
+> run"** — and *only* the first number does any work.
 
 ## Complexity
 
-**Time:** `O(n)`  
+**Time:** `O(n)` optimal · `O(n·k)` for the first attempt, where `k` is the longest run  
 **Space:** `O(n)`
 
 ## Explanation
+
+### Two changes turn `O(n·k)` into `O(n)`
+
+The first version is *correct*. It's slow for two separate reasons, and it's worth keeping
+them apart because only one of them is the real idea.
+
+**1. The head guard — this is the whole optimisation.**
+Without `if num - 1 in numSet: continue`, **every** member of a run walks its own suffix. A
+run of length `k` costs `k + (k-1) + ... + 1 = O(k²)` instead of `O(k)`. On `[1..n]` that's
+the difference between:
+
+```
+no head guard on [1..2000]:  1,999,000 inner steps   (~n²/2)
+with head guard:                 1,999 inner steps   (= n)
+```
+
+A 1000× difference at `n = 2000`, and the constraint is `n = 10^5`. **The guard is what makes
+the walks disjoint**, which is what makes the aggregate argument work: each number is stepped
+over exactly once across the entire run of the program, so a `while` inside a `for` is still
+`O(n)`.
+
+**2. Iterating `nums` instead of `numSet`.**
+Duplicates each redo the identical walk. Cheaper to fix and a smaller win, but free.
+
+A third, smaller one: a **set** is the right structure, not a frequency map. You only ever ask
+*"is it present?"* — the counts are never read, so building them is wasted work and wasted
+space.
+
 
 ### Why the counter idea fails
 
@@ -111,17 +130,22 @@ The outer loop is `n` iterations, the inner work is `n` in total across all of t
 
 ## Mistakes / what to remember
 
-- **I had the right test and the wrong job for it.** `num - 1 not in numSet` isn't a counter
-  condition, it's a **"start of run" detector**. When a check feels right but the counting
-  doesn't work, ask what the check should *authorise* rather than what it should *add*.
-- **A per-group answer needs a per-group owner.** One global counter can never separate
-  groups you visit in arbitrary order. Pick a canonical member of each group (here: the one
-  with no predecessor) and make it do the work.
-- **Nested loops ≠ `O(n²)`. Count total work.** The inner walks are over disjoint runs, so
-  they sum to `n`. Without the head guard it really would be `O(n²)`.
-- "Is X present?" is a hash-set question. Sorting also answers it but costs `O(n log n)` —
-  check the constraints before paying that.
-- `set(nums)` builds the set in one line.
+- **I had the right test and the wrong job for it** (first time round). `num - 1 not in
+  numSet` isn't a counter condition, it's a **"start of run" detector**. When a check feels
+  right but the counting doesn't work, ask what the check should *authorise*, not what it
+  should *add*.
+- **A per-group answer needs a per-group owner.** One global counter can never separate groups
+  you visit in arbitrary order.
+- **The head guard isn't a micro-optimisation — it's the algorithm.** Without it every member
+  of a run re-walks the run: `O(k²)` per run. Measured on `[1..2000]`: 1,999,000 inner steps
+  without it, 1,999 with. It's what makes the walks *disjoint*, which is what makes the
+  nested `while` still `O(n)`.
+- **Iterate the set, not the list** — duplicates otherwise redo identical work.
+- **Use a `set`, not a frequency map,** when you only ever ask "is it present?". Counts you
+  never read are wasted time and space.
+- `set(nums)` builds it in one line.
+- Minor: the optimal version mutates the loop variable `num` inside the `while`. Safe in
+  Python (the iterator is unaffected), but `curr = num` reads better and can't surprise you.
 
 ## Solution
 

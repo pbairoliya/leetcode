@@ -1,0 +1,74 @@
+{
+  "order": ["arrays", "two-pointers", "sliding-window", "stack", "binary-search", "linked-list", "trees", "heap", "backtracking", "graphs", "dp"],
+  "focus": ["arrays", "two-pointers", "sliding-window", "stack"],
+  "topics": {
+    "arrays": {
+      "name": "Arrays & Hashing",
+      "problems": [
+        [217, "Contains Duplicate", "Easy", "pure membership — a set. 3 minutes, warm-up."],
+        [242, "Valid Anagram", "Easy", "counting. Know BOTH ways (sort vs count map) and their costs."],
+        [1, "Two Sum", "Easy", "membership + index lookup."],
+        [49, "Group Anagrams", "Medium", "KEYING. What canonical form makes two items the same?"],
+        [347, "Top K Frequent Elements", "Medium", "counting + buckets."],
+        [271, "Encode and Decode Strings", "Medium", "no pattern, just care. Why does length-prefixing beat a delimiter?"],
+        [238, "Product of Array Except Self", "Medium", "PREFIX + SUFFIX passes, no division. Branch 4 of the map."],
+        [36, "Valid Sudoku", "Medium", "keying, three ways at once. Consolidates 49."],
+        [128, "Longest Consecutive Sequence", "Medium", "set + anchor: only the head of a run measures it."]
+      ]
+    },
+    "two-pointers": {
+      "name": "Two Pointers",
+      "problems": [
+        [125, "Valid Palindrome", "Easy", "converging pointers, positional symmetry."],
+        [167, "Two Sum II - Input Array Is Sorted", "Medium", "sorted + O(1) space is the signal."],
+        [15, "3Sum", "Medium", "sort, fix one, converge. Dedup by neighbour."],
+        [11, "Container With Most Water", "Medium", "which end can never win?"],
+        [42, "Trapping Rain Water", "Hard", "refresh the running max BEFORE you subtract."]
+      ]
+    },
+    "sliding-window": {
+      "name": "Sliding Window",
+      "problems": [
+        [121, "Best Time to Buy and Sell Stock", "Easy", "running extreme: best answer ending here."],
+        [3, "Longest Substring Without Repeating Characters", "Medium", "variable window; left never goes backwards."],
+        [424, "Longest Repeating Character Replacement", "Medium", "valid iff windowLen - maxCount <= k. The idea you are missing."],
+        [567, "Permutation in String", "Medium", "fixed window — the content pins the width."],
+        [76, "Minimum Window Substring", "Hard", "the SHORTEST template. Record WHILE shrinking."],
+        [239, "Sliding Window Maximum", "Hard", "max is not invertible — keep candidates."]
+      ]
+    },
+    "stack": {
+      "name": "Stack",
+      "problems": [
+        [20, "Valid Parentheses", "Easy", "three distinct failures: empty, mismatch, leftovers."],
+        [155, "Min Stack", "Medium", "O(1) min alongside the stack — 239's idea, solved differently."],
+        [150, "Evaluate Reverse Polish Notation", "Medium", "first pop is the RIGHT operand."],
+        [739, "Daily Temperatures", "Medium", "rename it: next greater element."],
+        [853, "Car Fleet", "Medium", "monotonic stack in disguise. Sort first."],
+        [22, "Generate Parentheses", "Medium", "the stack as recursion — first taste of backtracking."],
+        [84, "Largest Rectangle in Histogram", "Hard", "the boss. Leave until 739 and 853 are automatic."]
+      ]
+    },
+    "binary-search": {"name": "Binary Search", "problems": [
+      [704, "Binary Search", "Easy", "the template. Decide your invariant: [lo, hi] or [lo, hi)."],
+      [74, "Search a 2D Matrix", "Medium", "flatten the index."],
+      [875, "Koko Eating Bananas", "Medium", "binary search on the ANSWER, not the array."],
+      [153, "Find Minimum in Rotated Sorted Array", "Medium", "monotonic in halves."],
+      [33, "Search in Rotated Sorted Array", "Medium", "one half is always sorted."]
+    ]},
+    "linked-list": {"name": "Linked List", "problems": [
+      [206, "Reverse Linked List", "Easy", "save, flip, advance."],
+      [21, "Merge Two Sorted Lists", "Easy", "dummy head."],
+      [143, "Reorder List", "Medium", "reverse = backwards iterator. Cut the halves."],
+      [19, "Remove Nth Node From End of List", "Medium", "the gap is the measurement."],
+      [141, "Linked List Cycle", "Easy", "fast and slow."],
+      [138, "Copy List with Random Pointer", "Medium", "hash map old node -> new node."],
+      [2, "Add Two Numbers", "Medium", "carry + dummy head."]
+    ]},
+    "trees": {"name": "Trees", "problems": []},
+    "heap": {"name": "Heap / Priority Queue", "problems": []},
+    "backtracking": {"name": "Backtracking", "problems": []},
+    "graphs": {"name": "Graphs", "problems": []},
+    "dp": {"name": "Dynamic Programming", "problems": []}
+  }
+}

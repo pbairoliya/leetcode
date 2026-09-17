@@ -1,0 +1,237 @@
+[
+  {
+    "topic": "recognition",
+    "q": "You read a problem and have no idea where to start. What are the three questions, in order?",
+    "a": "1) What SHAPE is the answer? (pair / contiguous run / one-per-element / group / number)  2) What does the brute force RE-COMPUTE? The waste names the tool.  3) Does the constraint size allow it?"
+  },
+  {
+    "topic": "recognition",
+    "q": "You've picked a pattern. What do you check before writing any code?",
+    "a": "The pattern's own precondition, and then the INVARIANT as one sentence. Window: is validity preserved by shrinking? Converging pointers: can I prove one end never wins? Buckets: is the key a bounded integer? Binary search: is it actually monotonic?"
+  },
+  {
+    "topic": "recognition",
+    "q": "The word 'subsequence' appears. What does that rule out?",
+    "a": "Sliding window. Subsequence allows skipping, so the answer isn't contiguous — think DP. 'Substring' and 'subarray' mean contiguous."
+  },
+  {
+    "topic": "recognition",
+    "q": "The problem names a space bound like 'must use O(1) extra space'. What is it telling you?",
+    "a": "It's naming the technique by ruling out the hash map. Usually: sort + converging pointers, or an in-place scan."
+  },
+  {
+    "topic": "hashing",
+    "q": "What is the one-line tell for a hash map?",
+    "a": "The brute force's inner loop exists only to SEARCH for a specific value. A dict deletes that loop: ask instead of search."
+  },
+  {
+    "topic": "hashing",
+    "q": "Two Sum is unsorted and Two Sum II is sorted. Why do they get different answers?",
+    "a": "Sortedness tells you WHICH pointer to move, so you get O(1) space with converging pointers. Unsorted, 'this sum is too big' tells you nothing, so you pay O(n) space for a map."
+  },
+  {
+    "topic": "hashing",
+    "q": "Why is `x in list` the most dangerous line in an array solution?",
+    "a": "It's O(n) and invisible — it silently turns an O(n) loop into O(n^2). `x in set` is O(1)."
+  },
+  {
+    "topic": "hashing",
+    "q": "In Longest Consecutive Sequence, why does a single global counter fail?",
+    "a": "'Has a predecessor' is true of every non-head across the WHOLE input, so one counter sums the tails of every run at once. A per-group answer needs a per-group owner."
+  },
+  {
+    "topic": "hashing",
+    "q": "What is the 'anchor' rule?",
+    "a": "Give each group one canonical member — the one with no predecessor, or the smallest — and let only it do the work. Every other member checks, fails, and does nothing. The guard is usually also what makes it O(n)."
+  },
+  {
+    "topic": "hashing",
+    "q": "You need results with no duplicates. What's the wrong way and the right way?",
+    "a": "Wrong: scan the output you've already built (O(n) in the hot loop — you're deduping at the wrong layer). Right: sort, then skip equal NEIGHBOURS — sorting makes duplicates adjacent, so it's one O(1) comparison."
+  },
+  {
+    "topic": "two-pointers",
+    "q": "Converging pointers: what is the single question that decides which pointer moves?",
+    "a": "Which end can never be part of a better answer? Answer it and the move is forced."
+  },
+  {
+    "topic": "two-pointers",
+    "q": "Container With Most Water: justify moving the shorter wall.",
+    "a": "Any other partner for the shorter wall is strictly inside, so the width is smaller AND the height is still capped at that wall. Strictly worse. It's dead."
+  },
+  {
+    "topic": "two-pointers",
+    "q": "Two Sum II: justify discarding the right element when the sum is too big.",
+    "a": "Its best possible partner is the smallest number still available — and even that overshoots. So it can't pair with anything remaining."
+  },
+  {
+    "topic": "two-pointers",
+    "q": "Trapping Rain Water: why must the running max be refreshed BEFORE the subtraction?",
+    "a": "Refreshing first guarantees leftMax >= height[left], so the term can never be negative — the max IS the clamp. Do it after and a bar taller than everything before it subtracts water."
+  },
+  {
+    "topic": "two-pointers",
+    "q": "Why does each branch of Trapping Rain Water only need ONE of the two maxes?",
+    "a": "The condition proves the other side isn't binding: if height[left] < height[right], a bar that tall exists on the right, so min(...) resolves to leftMax. Invariant: leftMax <= rightMax when the left branch runs."
+  },
+  {
+    "topic": "two-pointers",
+    "q": "Width in Container With Most Water: why right - left and not right - left + 1?",
+    "a": "You're measuring the GAP between two walls, not counting elements in an inclusive range. +1 belongs to counting. Check: [2,2,2] -> 2 * min(2,2) = 4."
+  },
+  {
+    "topic": "two-pointers",
+    "q": "3Sum: why is skipping duplicates on `left` enough — why no right-skip?",
+    "a": "Once i and left are fixed, the third value is DETERMINED (-(nums[i]+nums[left])). There's only one right that can complete the triplet."
+  },
+  {
+    "topic": "sliding-window",
+    "q": "What is the precondition for a sliding window?",
+    "a": "If a window is valid, every window inside it must also be valid. Shrinking must preserve validity — that's what makes it safe to surrender a prefix instead of restarting. If not, it isn't a window."
+  },
+  {
+    "topic": "sliding-window",
+    "q": "What is the invariant of every sliding window?",
+    "a": "`left` never moves backwards. That's also why for + inner while is still O(n): count total moves, not nesting."
+  },
+  {
+    "topic": "sliding-window",
+    "q": "Fixed or variable — the one-line test?",
+    "a": "Can you compute the window's size before looking at the data? Yes -> fixed (no inner while, no real `left`). No -> variable."
+  },
+  {
+    "topic": "sliding-window",
+    "q": "Permutation in String never states a window size. Why is it still a FIXED window?",
+    "a": "'A permutation of s1' pins the width to len(s1). Anything that fixes the CONTENT fixes the size."
+  },
+  {
+    "topic": "sliding-window",
+    "q": "Longest vs shortest window — where does the recording go?",
+    "a": "Longest: expand, repair with the while, record AFTER repairing. Shortest: expand, then record WHILE shrinking. Mixing these up is the classic bug."
+  },
+  {
+    "topic": "sliding-window",
+    "q": "Before using either window template, what must you check about the state?",
+    "a": "Is it INVERTIBLE? Sum, count, frequency map: yes. Max, min, median, k-th largest: NO — you can't un-fold a max. Then you maintain candidates, not an answer."
+  },
+  {
+    "topic": "sliding-window",
+    "q": "In the 'jump' version of Longest Substring, why is left = max(left, lastSeen) load-bearing?",
+    "a": "A stale index from before the window would drag `left` backwards. Test with 'abba': at right=3, 'a' was last seen at 0, behind the window."
+  },
+  {
+    "topic": "sliding-window",
+    "q": "How do you COUNT valid windows instead of measuring the longest?",
+    "a": "Add right - left + 1 — the number of valid windows ending at right."
+  },
+  {
+    "topic": "stack",
+    "q": "Derive 'this is a stack' without memorising it.",
+    "a": "I hit something I can't resolve yet, so I park it. What discharges a parked item? A later event. In what order? NEWEST first. Newest-first = stack. Nesting is the symptom, LIFO obligations are the cause."
+  },
+  {
+    "topic": "stack",
+    "q": "Which deferred item becomes due next — and what structure does each answer imply?",
+    "a": "Most recent -> stack (nesting). Oldest -> queue (BFS, levels). Best -> heap (priority). Matching a key you'll see later -> hash map."
+  },
+  {
+    "topic": "stack",
+    "q": "In a monotonic stack, why is the stack monotonic — is that a design choice?",
+    "a": "No, it's forced. A weaker parked item could never sit behind a stronger one: the stronger one would already have discharged it on arrival. Monotonic is a CONSEQUENCE."
+  },
+  {
+    "topic": "stack",
+    "q": "Daily Temperatures: what's the first move before any code?",
+    "a": "Rename the question. 'How many days until warmer' IS 'next greater element to the right', then subtract indices."
+  },
+  {
+    "topic": "stack",
+    "q": "Monotonic stack: what does a leftover stack mean at the end?",
+    "a": "Those elements never found an answer. Pre-fill the result with the default (0) and you need no cleanup pass."
+  },
+  {
+    "topic": "stack",
+    "q": "Forward vs backward monotonic stack — what flips?",
+    "a": "Forward the stack holds items WAITING and you write the answer on POP (pop while top < current). Backward it holds CANDIDATES and you write on PUSH (pop while top <= current). Ties are the test case that catches a wrong < vs <=."
+  },
+  {
+    "topic": "stack",
+    "q": "Why can't you delete an arbitrary element from a heap, and what do you do instead?",
+    "a": "A binary heap has no O(log n) 'delete this item' — that's the structure, not a gap in heapq. Use LAZY DELETION: store (priority, index), leave stale entries in, discard them only when they surface at the top."
+  },
+  {
+    "topic": "stack",
+    "q": "What does `heap.pop()` do in Python, and why is it a disaster?",
+    "a": "It's list.pop() — removes an arbitrary leaf of the internal array, silently, with no error. Use heapq.heappop(). heap[0] is the min; heap[-1] is meaningless."
+  },
+  {
+    "topic": "stack",
+    "q": "RPN: which pop is the left operand?",
+    "a": "The SECOND. The stack returns them reversed. Irrelevant for + and *, fatal for - and /."
+  },
+  {
+    "topic": "stack",
+    "q": "int(a/b) vs a//b — when does it matter?",
+    "a": "On every negative result. int(-7/2) = -3 (truncates toward zero); -7//2 = -4 (floors). RPN wants truncation."
+  },
+  {
+    "topic": "complexity",
+    "q": "A `while` inside a `for`. Is it O(n^2)?",
+    "a": "Not necessarily. Count TOTAL work, not nesting. If the inner loop runs behind a guard over disjoint pieces — or each element is pushed once and popped once — the total is O(n). That's an aggregate argument."
+  },
+  {
+    "topic": "complexity",
+    "q": "n <= 20. n <= 10^5. What does each allow?",
+    "a": "n <= 20 invites O(2^n) — subsets, bitmask, backtracking. n <= 10^5 means O(n log n) at worst — sort, heap, binary search. Budget ~10^8 simple ops per second."
+  },
+  {
+    "topic": "complexity",
+    "q": "When is sorting the right O(n log n) to pay?",
+    "a": "When it unlocks converging pointers or makes duplicates adjacent. NOT when a set answers the same question, and NEVER when the answer depends on position (sorting destroys widths and indices)."
+  },
+  {
+    "topic": "linked-list",
+    "q": "The three two-pointer configurations on linked lists?",
+    "a": "OFFSET (same speed, fixed gap — distance from the end). SPEED (fast goes 2x — the middle, cycle detection). TWO LISTS (one pointer each — merge, weave, intersect)."
+  },
+  {
+    "topic": "linked-list",
+    "q": "A linked-list solution hangs forever. First thing to check?",
+    "a": "A cycle you built — almost always a missing cut (slow.next = None) before reversing. Second: a pointer you never advanced."
+  },
+  {
+    "topic": "linked-list",
+    "q": "When do you reach for a dummy node?",
+    "a": "Whenever the head might be removed or replaced. It manufactures the predecessor head doesn't have, collapsing two code paths into one. Return dummy.next, never head."
+  },
+  {
+    "topic": "linked-list",
+    "q": "Reverse a list: what's the loop order and why is it forced?",
+    "a": "SAVE the rest, FLIP the arrow, ADVANCE both (trailing pointer first). Swap any two and you either lose the tail or stop moving. Return the NEW head — the old head is now the tail."
+  },
+  {
+    "topic": "hashing",
+    "q": "Longest Consecutive Sequence without the `num - 1 not in set` guard — still correct?",
+    "a": "Correct but O(n*k): every member of a run re-walks its own suffix, so a run of length k costs O(k^2). Measured on [1..2000]: 1,999,000 inner steps without the guard vs 1,999 with. The guard is what makes the walks DISJOINT — which is what makes the nested while still O(n)."
+  },
+  {
+    "topic": "hashing",
+    "q": "You only ever ask 'is x present?'. Set or dict of counts?",
+    "a": "Set. Counts you never read are wasted time and space. Reach for the counter only when the frequency itself is part of the answer."
+  },
+  {
+    "topic": "linked-list",
+    "q": "Merge Two Sorted Lists: with a dummy head, which special cases still need explicit code?",
+    "a": "None. Both lists empty: the while never runs, the tail checks fail, newHead.next is already None. And the tail is just `newCurr.next = list1 or list2` — exactly one is non-empty when the loop exits. Trusting the sentinel is the point of having it."
+  },
+  {
+    "topic": "complexity",
+    "q": "Best Time to Buy and Sell Stock: does it matter whether you update `cheapest` before or after computing the profit?",
+    "a": "No — updating first gives price - price = 0, which can never lower the max. But in Trapping Rain Water the same-shaped ordering IS load-bearing (refresh the max first or the term goes negative). The habit is to ASK, not to assume."
+  },
+  {
+    "topic": "hashing",
+    "q": "Two Sum: what does the one-pass version buy you over building the map first?",
+    "a": "Check before you insert, so the current element isn't in the map yet — the `!= i` self-match guard disappears entirely, and you return as soon as the pair exists instead of after building the whole map."
+  }
+]

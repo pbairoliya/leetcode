@@ -6,23 +6,28 @@
 |---|---|
 | **Difficulty** | 🟡 Medium |
 | **Topics** | `Array`, `Stack`, `Monotonic Stack` |
-| **Time to solve** | — |
-| **Attempts** | 1 |
+| **Time to solve** | 9m |
+| **Attempts** | 2 |
 | **Solved** | 2026-09-16 |
-| **Unaided** | no |
+| **Unaided** | yes |
 
 ## My approach
 
-> [!danger] Did not solve this one. **Redo it from a blank file.**
-> I knew "stack" only because of the category, and could not derive it. Read the Explanation,
-> close the note, and rewrite both versions from scratch. Review date is set short on purpose.
+> [!success] Redone from a blank file 2026-09-16 — **9 minutes, unaided.**
+> Yesterday I couldn't start this. Today it came from the derivation, not from memory. That
+> gap is exactly what "redo from blank" is for: recognising a solution and producing one are
+> different skills.
 
-**The reframe I missed:** "how many days until it's warmer" is *not* really a counting
-question. It's **"find the next greater element to the right"**, and then subtract indices.
-Recognising that renames the problem into one with a standard answer.
+**The reframe:** "how many days until it's warmer" is **"next greater element to the right"**,
+then subtract indices.
 
-**My instinct to go backwards was right** — it just needed a stack to go with it. Both
-directions work, and the note below has both.
+**The derivation** (not memorised — rebuilt):
+
+> Walking left to right, I can't answer day `i` when I reach it — the answer is in the
+> future. So park it. A warm day discharges every parked day cooler than it, **most recent
+> first**, because the parked days are *forced* to be in decreasing order: a cooler day could
+> never sit behind a warmer one, the warmer one would already have discharged it.
+> Newest-first ⇒ **stack**.
 
 ## Complexity
 

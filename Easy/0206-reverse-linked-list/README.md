@@ -7,10 +7,14 @@
 | **Difficulty** | 🟢 Easy |
 | **Topics** | `Linked List`, `Recursion` |
 | **Time to solve** | — |
-| **Attempts** | 1 |
+| **Attempts** | 2 |
 | **Solved** | 2026-09-02 |
+| **Unaided** | yes |
 
 ## My approach
+
+> [!success] Rewritten from blank on review, 2026-09-16 — unaided.
+
 
 Can be done recursively or iteratively. Went iterative: walk the list once and
 flip each `next` pointer to face backwards.

@@ -79,6 +79,10 @@ lc — LeetCode workflow for Obsidian + git
     lc done   [problem]      stop, mark solved, schedule the next review
     lc drop   [problem]      give up on it: stop the clock, keep the note
 
+  Studying
+    lc session [--minutes N] a guided study block: quiz, redos, reviews, new problems
+    lc quiz [--topics ...]   just the recall questions
+
   Publishing
     lc sync [--dry-run]      write solutions and READMEs into this repo
     lc push [-m <msg>]       sync, then commit and push
@@ -234,6 +238,7 @@ main() {
     push)             cmd_push "$@" ;;
     stats|status)     py lc_stats.py "$cmd" "$@" ;;
     review)           py lc_review.py "$cmd" "$@" ;;
+    session|quiz)     py lc_session.py "$cmd" "$@" ;;
     install)          cmd_install "$@" ;;
     uninstall)        cmd_uninstall "$@" ;;
     test)             cmd_test "$@" ;;
