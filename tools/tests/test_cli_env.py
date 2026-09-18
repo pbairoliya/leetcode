@@ -14,10 +14,24 @@ LC = Path(__file__).resolve().parents[1] / "lc"
 MINIMAL_PATH = "/usr/bin:/bin:/usr/sbin:/sbin"
 
 
-def run(args, path=MINIMAL_PATH):
+@pytest.fixture
+def vault(tmp_path):
+    """A throwaway vault.
+
+    These tests are about the interpreter `lc` picks, not about anyone's notes.
+    Pointing them at a real vault made them pass on the author's machine and
+    fail everywhere else -- which is exactly the bug CI is for. LC_VAULT_DIR and
+    LC_NOTES_DIR override config.toml, so an empty directory is enough.
+    """
+    notes = tmp_path / "Learnings" / "Leetcode"
+    notes.mkdir(parents=True)
+    return {"LC_VAULT_DIR": str(tmp_path), "LC_NOTES_DIR": "Learnings/Leetcode"}
+
+
+def run(args, path=MINIMAL_PATH, env=None):
     return subprocess.run(
         [str(LC), *args],
-        env={"PATH": path, "HOME": os.path.expanduser("~")},
+        env={"PATH": path, "HOME": os.path.expanduser("~"), **(env or {})},
         capture_output=True, text=True, timeout=60,
     )
 
@@ -40,22 +54,17 @@ def test_help_works_with_a_minimal_path():
     assert "lc new" in r.stdout
 
 
-def test_stats_works_with_a_minimal_path():
+def test_stats_works_with_a_minimal_path(vault):
     """Exercises the Python modules — this is what raised ModuleNotFoundError."""
-    r = run(["stats"])
+    r = run(["stats"], env=vault)
     assert r.returncode == 0, r.stderr
     assert "tomllib" not in r.stderr
     assert "ModuleNotFoundError" not in r.stderr
 
 
-def test_explicit_bad_interpreter_is_rejected_with_a_clear_message():
-    r = run(["stats"], path=MINIMAL_PATH)
+def test_explicit_bad_interpreter_is_rejected_with_a_clear_message(vault):
+    r = run(["stats"], env=vault)
     assert "Traceback" not in r.stderr
-    bad = subprocess.run(
-        [str(LC), "stats"],
-        env={"PATH": MINIMAL_PATH, "HOME": os.path.expanduser("~"),
-             "LC_PYTHON": "/nonexistent/python"},
-        capture_output=True, text=True, timeout=60,
-    )
     # A bad LC_PYTHON must fall through to a working one, not explode.
+    bad = run(["stats"], env={**vault, "LC_PYTHON": "/nonexistent/python"})
     assert bad.returncode == 0, bad.stderr
