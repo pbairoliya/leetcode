@@ -71,7 +71,7 @@ review, and by difficulty.
 ## Scheduling
 
 `lc install` links `lc` into `~/bin` and loads
-`com.pbairol.leetcode-sync`, which runs `lc push` at **23:00** with a 09:00
+`com.<your-user>.leetcode-sync`, which runs `lc push` at **23:00** with a 09:00
 retry in case the Mac slept through it. A clean tree makes a redundant run a
 no-op, so firing twice costs nothing. Logs land in `.logs/`.
 

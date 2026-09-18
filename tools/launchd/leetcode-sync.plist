@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.pbairol.leetcode-sync</string>
+    <string>__LABEL__</string>
 
-    <!-- __TOOLS_DIR__, __REPO_DIR__ and __HOME__ are substituted by `lc install`. -->
+    <!-- __LABEL__, __TOOLS_DIR__, __REPO_DIR__ and __HOME__ are all filled in by
+         `lc install`; the label is derived from $USER so this file ships with
+         nobody's username in it. -->
     <key>ProgramArguments</key>
     <array>
         <string>__TOOLS_DIR__/lc</string>
