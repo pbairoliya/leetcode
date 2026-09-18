@@ -3,14 +3,14 @@
 
 [vault]
 # Root of the Obsidian vault, and the folder inside it that holds problem notes.
-dir        = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/pbrain"
+dir        = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/YourVault"
 notes_dir  = "Learnings/Leetcode"
 # Vault name as Obsidian knows it, used to build obsidian:// URIs.
-name       = "pbrain"
+name       = "YourVault"
 
 [repo]
 dir    = "~/leetcode"
-remote = "git@github.com:pb0224/leetcode.git"
+remote = "git@github.com:you/leetcode.git"
 branch = "main"
 
 [sync]

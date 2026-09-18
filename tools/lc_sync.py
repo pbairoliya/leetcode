@@ -174,7 +174,19 @@ def render_root_readme(entries: list[dict[str, Any]], existing: str = "") -> str
         head = existing.split(GEN_BEGIN)[0]
         tail = existing.split(GEN_END, 1)[1]
         return head + generated + tail
-    intro = "# LeetCode\n\nSolutions and write-ups, generated from my Obsidian vault by [`lc`](./tools).\n\n"
+    intro = (
+        "# LeetCode\n\n"
+        "Solutions and write-ups, plus [`lc`](./tools) \u2014 the CLI that generates them.\n\n"
+        "**The interesting half is `tools/`.** `lc` makes an Obsidian note the source of\n"
+        "truth for a problem: it imports the statement, scaffolds the code, times you,\n"
+        "schedules a spaced-repetition review, and publishes the note into this repo. The\n"
+        "reconciliation rule is the part worth reading \u2014 the note wins, *unless* its code\n"
+        "block is still the untouched stub, in which case the repo wins and is written back\n"
+        "into the note. That exception is what makes \"the note is the source of truth\"\n"
+        "safe to say out loud, and most of the 94 offline tests point at it.\n\n"
+        "Everything outside `tools/` is generated. Editing it by hand is pointless \u2014 the\n"
+        "next `lc sync` will overwrite it.\n\n"
+    )
     return intro + generated + "\n"
 
 

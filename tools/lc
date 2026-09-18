@@ -187,15 +187,18 @@ cmd_install() {
   install_launchd
 }
 
-readonly PLIST_LABEL="com.pbairol.leetcode-sync"
+# The agent label has to be unique per machine but must not ship somebody
+# else's username. Derive it from whoever is installing.
+readonly PLIST_LABEL="com.${USER:-local}.leetcode-sync"
 
 install_launchd() {
-  local src="$TOOLS_DIR/launchd/$PLIST_LABEL.plist"
+  local src="$TOOLS_DIR/launchd/leetcode-sync.plist"
   local dest="$HOME/Library/LaunchAgents/$PLIST_LABEL.plist"
   [[ -f "$src" ]] || die "missing $src"
 
   mkdir -p "$HOME/Library/LaunchAgents" "$REPO_DIR/.logs"
-  sed -e "s|__TOOLS_DIR__|$TOOLS_DIR|g" \
+  sed -e "s|__LABEL__|$PLIST_LABEL|g" \
+      -e "s|__TOOLS_DIR__|$TOOLS_DIR|g" \
       -e "s|__REPO_DIR__|$REPO_DIR|g" \
       -e "s|__HOME__|$HOME|g" \
       "$src" > "$dest"
