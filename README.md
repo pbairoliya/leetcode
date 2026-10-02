@@ -98,6 +98,6 @@ notes written while solving it. Editing those by hand is pointless — the next
 | 21 | [Merge Two Sorted Lists](./Easy/0021-merge-two-sorted-lists) | 🟢 Easy | — | 2 | 2026-09-02 |
 | 206 | [Reverse Linked List](./Easy/0206-reverse-linked-list) | 🟢 Easy | — | 2 | 2026-09-02 |
 
-_Updated 2026-10-01 by `lc sync`._
+_Updated 2026-10-02 by `lc sync`._
 
 <!-- lc:end -->
